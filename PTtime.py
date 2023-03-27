@@ -58,7 +58,7 @@ class PTtime:
                 message = '签到失败，请手动签到并检查'
         except:
             message = '签到失败，脚本出错'
-        self.pushplus(os.environ['PUSHPLUS_TOKEN'], message)
+        self.pushplus(os.environ['PUSH_PLUS_TOKEN'], message)
 
 if __name__ == '__main__':
     PTtime().main()
