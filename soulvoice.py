@@ -57,7 +57,7 @@ class soulvoice:
                 message = '签到失败，请手动签到并检查'
         except:
             message = '签到失败，脚本出错'
-        self.pushplus(os.environ['pushplus_token'], message)
+        self.pushplus(os.environ['PUSHPLUS_TOKEN'], message)
 
 if __name__ == '__main__':
     soulvoice().main()

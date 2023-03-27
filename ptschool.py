@@ -31,9 +31,9 @@ class PTSchool:
         }
 
         response = requests.get('https://pt.btschool.club/index.php', params=params, headers=headers)
-        content = response.content.decode('utf-8')
-        soup = BeautifulSoup(content, 'html.parser')
-        msg = soup.find('span').get_text()
+        # content = response.content.decode('utf-8')
+        soup = BeautifulSoup(response.text, features="html5lib")
+        msg = soup.find('span').text
         return msg
 
     def pushplus(self, pushplus_token, content):
@@ -43,13 +43,14 @@ class PTSchool:
             'token': pushplus_token,
             "title": "ptschool 签到通知",
             "content": html,
-            'template': 'json'
+            'template': 'txt'
         }
         requests.post(url=url, params=data)
 
     def main(self):
         msg = self.login(cookie)
-        self.pushplus(os.environ['pushplus_token'], msg)
+        print(msg)
+        self.pushplus(os.environ['PUSHPLUS_TOKEN'], msg)
 
 if __name__ == '__main__':
     PTSchool().main()
