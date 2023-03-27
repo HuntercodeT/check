@@ -52,7 +52,7 @@ class HDDolby:
             except:
                 message = '签到失败，脚本出错'
             print(message)
-            self.pushplus(os.environ['PUSHPLUS_TOKEN'], message)
+            self.pushplus(os.environ['PUSH_PLUS_TOKEN'], message)
 
 if __name__ == '__main__':
     HDDolby().main()

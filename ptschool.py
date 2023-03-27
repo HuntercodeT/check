@@ -50,7 +50,7 @@ class PTSchool:
     def main(self):
         msg = self.login(cookie)
         print(msg)
-        self.pushplus(os.environ['PUSHPLUS_TOKEN'], msg)
+        self.pushplus(os.environ['PUSH_PLUS_TOKEN'], msg)
 
 if __name__ == '__main__':
     PTSchool().main()
