@@ -1,5 +1,5 @@
 import os
-
+import logging
 import requests
 from bs4 import BeautifulSoup
 import datetime, random, time
@@ -29,9 +29,9 @@ class PTtime:
         value = soup.select('span[class="dib w150"]')[0].get_text()
         time_t = soup.select('span[class="dib w200 pr20"]')[0].get_text()
         selftoday = datetime.date.today()
-
+        logging.info(f'{username} {tishi}')
         # print(time_1)
-        if str(selftoday) == selftime and username == 'stones':
+        if str(selftoday) == selftime:
             code = 1
         else:
             code = 0
@@ -61,5 +61,6 @@ class PTtime:
         self.pushplus(os.environ['PUSH_PLUS_TOKEN'], message)
 
 if __name__ == '__main__':
+    logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s %(message)s')
     PTtime().main()
 

@@ -1,5 +1,5 @@
 import os
-
+import logging
 import requests
 from bs4 import BeautifulSoup
 import datetime, random, time
@@ -16,20 +16,10 @@ class HDDolby:
         }
         time.sleep(random.randint(10, 500))
         re = requests.get(url, headers=headers)
-        content = re.text
-        return content
-
-
-    def check(self,content):
-        soup = BeautifulSoup(content, features="html5lib")
-        username = soup.select('b')[0].get_text()
-        tishi = soup.select('span[class="medium"]')[0].get_text().split('(')[2].split(')')[0]
-        if '签到已得' in tishi and username == 'stones':
-            code = 1
-        else:
-            code = 0
-        return username, tishi,code
-
+        soup = BeautifulSoup(re.text, features="html5lib")
+        msg = soup.select('span[class="medium"]')[0].get_text().split('(')[2].split(')')[0]
+        logging.info(f'{msg}')
+        return msg
 
     def pushplus(self, pushplus_token, content):
         url = 'http://www.pushplus.plus/send'
@@ -43,17 +33,13 @@ class HDDolby:
         requests.post(url=url, params=data)
     def main(self) :
             try:
-                content = self.login(cookie)
-                username, tishi, code = self.check(content)
-                if code == 1:
-                    message = username + '您好，HDDolby签到成功' + '\n' + '本次签到获得' + tishi + ('魔力值')
-                else:
-                    message = '签到失败，请手动签到并检查'
+                msg = self.login(cookie)
             except:
-                message = '签到失败，脚本出错'
-            print(message)
-            self.pushplus(os.environ['PUSH_PLUS_TOKEN'], message)
+                msg = '签到失败，脚本出错'
+            print(msg)
+            self.pushplus(os.environ['PUSH_PLUS_TOKEN'], msg)
 
 if __name__ == '__main__':
+    logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s %(message)s')
     HDDolby().main()
 

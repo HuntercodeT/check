@@ -1,5 +1,5 @@
 import os
-
+import logging
 import requests
 from bs4 import BeautifulSoup
 import datetime, random, time
@@ -29,7 +29,8 @@ class soulvoice:
         tishi = soup.select('td[class="bottom"]')[0].get_text()
         total = tishi.split(':')[1].split(')')[0].split('(')[0]
         reward = tishi.split(':')[1].split(')')[0].split('(')[1]
-        if '签到已得' in tishi and username == 'stones':
+        logging.info(f'{username} {tishi}')
+        if '签到已得' in tishi:
             code = 1
         else:
             code = 0
@@ -60,5 +61,6 @@ class soulvoice:
         self.pushplus(os.environ['PUSH_PLUS_TOKEN'], message)
 
 if __name__ == '__main__':
+    logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s %(message)s')
     soulvoice().main()
 
