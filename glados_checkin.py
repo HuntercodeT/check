@@ -34,6 +34,30 @@ class Glados:
             msg = '签到失败，请手动签到并检查'
         return msg
 
+    def reopen(self,cookies):
+
+        headers = {
+            'authority': 'glados.one',
+            'accept': 'application/json, text/plain, */*',
+            'accept-language': 'zh-CN,zh;q=0.9,en;q=0.8',
+            'authorization': '7916806822158174279434491371426-1440-2560',
+            'cache-control': 'no-cache',
+            'cookie': cookies,
+            'dnt': '1',
+            'origin': 'https://glados.one',
+            'pragma': 'no-cache',
+            'sec-ch-ua': '"Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"',
+            'sec-ch-ua-mobile': '?0',
+            'sec-ch-ua-platform': '"Windows"',
+            'sec-fetch-dest': 'empty',
+            'sec-fetch-mode': 'cors',
+            'sec-fetch-site': 'same-origin',
+            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
+        }
+
+        requests.post('https://glados.one/api/user/reopen', headers=headers)
+
+
     def pushplus(self, pushplus_token, content):
         url = 'http://www.pushplus.plus/send'
         html = content.replace("\n", "<br/>")
@@ -49,6 +73,7 @@ class Glados:
         for cookie in cookies_list:
             msg = self.login(cookie)
             print(msg)
+            self.reopen(cookie)
             self.pushplus(os.environ['PUSH_PLUS_TOKEN'], msg)
 
 if __name__ == '__main__':
